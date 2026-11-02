@@ -1,4 +1,4 @@
-#include "razzle.h"
+#include "ntverpctl.h"
 
 struct config_app config;
 
@@ -59,7 +59,7 @@ static int env_resolution(void){
 
     trim_trailing_separators(config.tree_path);
     windows_to_unix(config.tree_path, config.bash_tree_path, sizeof(config.bash_tree_path));
-    snprintf(config.razzle_path, sizeof(config.razzle_path), "%s" RAZZLE_SUFFIX, config.tree_path);
+    snprintf(config.lab_file_path, sizeof(config.lab_file_path), "%s" LAB_FILE_SUFFIX, config.tree_path);
     return 1;
 }
 

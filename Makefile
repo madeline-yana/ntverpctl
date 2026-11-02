@@ -1,13 +1,13 @@
 CC      := x86_64-w64-mingw32-gcc
 CFLAGS  := -Wall -Wextra -O2
-TARGET  := razzle.exe
-SRCS    := main.c razzle_fs.c razzle_parse.c razzle_commands.c
+TARGET  := ntverpctl.exe
+SRCS    := main.c ntverpctl_fs.c ntverpctl_parse.c ntverpctl_commands.c
 OBJS    := $(SRCS:.c=.o)
 
 $(TARGET): $(OBJS)
 	$(CC) $(CFLAGS) -o $@ $^
 
-%.o: %.c razzle.h
+%.o: %.c ntverpctl.h
 	$(CC) $(CFLAGS) -c -o $@ $<
 
 clean:

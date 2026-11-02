@@ -1,5 +1,5 @@
-#ifndef RAZZLE_H
-#define RAZZLE_H
+#ifndef NTVERPCTL_H
+#define NTVERPCTL_H
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -10,13 +10,13 @@
 #include <ctype.h>
 
 #define MAX_PATH_LEN 260 // Max path enforced by Windows
-#define RAZZLE_SUFFIX "\\tools\\razzle.cmd"
+#define LAB_FILE_SUFFIX "\\tools\\razzle.cmd"
 #define ORIG_SUFFIX ".orig"
 
 struct config_app {
     char tree_path[MAX_PATH_LEN];
     char bash_tree_path[MAX_PATH_LEN];
-    char razzle_path[MAX_PATH_LEN + sizeof(RAZZLE_SUFFIX)];
+    char lab_file_path[MAX_PATH_LEN + sizeof(LAB_FILE_SUFFIX)];
     char *command_arg;
     char *value_arg;
 };

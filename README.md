@@ -1,4 +1,4 @@
-# razzle
+# ntverpctl
 
 A small Windows command-line utility for inspecting and updating build numbers
 in `ntverp.h` files and the build lab in `tools\razzle.cmd`.
@@ -15,17 +15,17 @@ make
 ```
 
 Or build from MSYS2 on Windows with the same `x86_64-w64-mingw32-gcc` toolchain.
-The result is a single `razzle.exe`.
+The result is a single `ntverpctl.exe`.
 
 ## Usage
 
 ```text
-razzle show
-razzle bump
-razzle bump-build
-razzle set-build N
-razzle set-qfe N
-razzle set-lab NAME
+ntverpctl show
+ntverpctl bump
+ntverpctl bump-build
+ntverpctl set-build N
+ntverpctl set-qfe N
+ntverpctl set-lab NAME
 ```
 
 - `show` prints the current build lab and the build/QFE values from each
@@ -39,7 +39,7 @@ razzle set-lab NAME
 ## Environment
 
 - `TREE` — source tree root. Accepts `D:\src`, `D:/src`, `/d/src`, or
-  `/mnt/d/src`. If it is not set, razzle prompts for it.
+  `/mnt/d/src`. If it is not set, ntverpctl prompts for it.
 - `NTVERP` — optional path to a specific `ntverp.h`. When set, the tree is not
   searched.
 
@@ -47,7 +47,7 @@ razzle set-lab NAME
 
 - `ntverp.h` files are discovered recursively under `TREE` and must contain a
   `VER_PRODUCTBUILD` define.
-- If several files match, razzle prompts for a number or `a` for all.
+- If several files match, ntverpctl prompts for a number or `a` for all.
 - Each edited file is backed up once as `<file>.orig`.
 - The `// Windows NT Build X.Y` comment is kept in sync when a QFE value exists.
 - Exit code is `0` on success and `1` on error.

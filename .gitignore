@@ -1,4 +1,4 @@
 # Build artifacts
-razzle.exe
+ntverpctl.exe
 *.o
 *.obj

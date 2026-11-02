@@ -1,4 +1,4 @@
-#include "razzle.h"
+#include "ntverpctl.h"
 
 static void show_header(const char *path){
     char build[32] = "";
@@ -151,9 +151,9 @@ static int edit_header(struct config_app *cfg, const char *path){
 }
 
 int execute_show(struct config_app *cfg){
-    if (path_exists(cfg->razzle_path)) {
+    if (path_exists(cfg->lab_file_path)) {
         size_t size = 0;
-        char *data = read_file(cfg->razzle_path, &size);
+        char *data = read_file(cfg->lab_file_path, &size);
         if (data != NULL) {
             char lab[256];
             if (parse_lab_value(data, size, lab, sizeof(lab))) {
@@ -206,8 +206,8 @@ int execute_set_lab(struct config_app *cfg){
         print_error("ERROR: set-lab needs a name");
         return 1;
     }
-    if (!path_exists(cfg->razzle_path)) {
-        print_error("ERROR: Not found: %s", cfg->razzle_path);
+    if (!path_exists(cfg->lab_file_path)) {
+        print_error("ERROR: Not found: %s", cfg->lab_file_path);
         return 1;
     }
     if (!valid_lab_name(cfg->value_arg)) {
@@ -216,9 +216,9 @@ int execute_set_lab(struct config_app *cfg){
     }
 
     size_t size = 0;
-    char *data = read_file(cfg->razzle_path, &size);
+    char *data = read_file(cfg->lab_file_path, &size);
     if (data == NULL) {
-        print_error("ERROR: Failed to read %s", cfg->razzle_path);
+        print_error("ERROR: Failed to read %s", cfg->lab_file_path);
         return 1;
     }
     int lab_lines = count_lab_lines(data, size);
@@ -227,8 +227,8 @@ int execute_set_lab(struct config_app *cfg){
         free(data);
         return 1;
     }
-    if (!backup_once(cfg->razzle_path)) {
-        print_error("ERROR: Failed to back up %s", cfg->razzle_path);
+    if (!backup_once(cfg->lab_file_path)) {
+        print_error("ERROR: Failed to back up %s", cfg->lab_file_path);
         free(data);
         return 1;
     }
@@ -236,9 +236,9 @@ int execute_set_lab(struct config_app *cfg){
     size_t new_size = 0;
     char *new_data = transform_lines(data, size, replace_lab_line, cfg->value_arg, &new_size);
     free(data);
-    if (new_data == NULL || !write_file_atomic(cfg->razzle_path, new_data, new_size)) {
+    if (new_data == NULL || !write_file_atomic(cfg->lab_file_path, new_data, new_size)) {
         free(new_data);
-        print_error("ERROR: Failed to update %s", cfg->razzle_path);
+        print_error("ERROR: Failed to update %s", cfg->lab_file_path);
         return 1;
     }
     free(new_data);
