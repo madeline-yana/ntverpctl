@@ -1,0 +1,4 @@
+# Build artifacts
+razzle.exe
+*.o
+*.obj
