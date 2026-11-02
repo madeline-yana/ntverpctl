@@ -49,7 +49,10 @@ ntverpctl set-lab NAME
   `VER_PRODUCTBUILD` define.
 - If several files match, ntverpctl prompts for a number or `a` for all.
 - Each edited file is backed up once as `<file>.orig`.
-- The `// Windows NT Build X.Y` comment is kept in sync when a QFE value exists.
+- A `// Windows NT Build X.Y` line is kept in sync when both
+  `VER_PRODUCTBUILD` and `VER_PRODUCTBUILD_QFE` have numeric values. The
+  comment may be indented, and trailing `//` or `/* ... */` comments on the
+  defines are ignored.
 - Exit code is `0` on success and `1` on error.
 
 ## License

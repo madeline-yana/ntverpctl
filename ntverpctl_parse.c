@@ -36,6 +36,23 @@ int valid_lab_name(const char *s){
     return 1;
 }
 
+static size_t strip_line_comment(const char *line, size_t len){
+    size_t end = len;
+    if (end > 0 && line[end - 1] == '\r') {
+        end--;
+    }
+    for (size_t i = 0; i + 1 < end; i++) {
+        if (line[i] == '/' && (line[i + 1] == '/' || line[i + 1] == '*')) {
+            end = i;
+            break;
+        }
+    }
+    while (end > 0 && isspace((unsigned char)line[end - 1])) {
+        end--;
+    }
+    return end;
+}
+
 static int find_define_value_span(const char *line, size_t len, const char *name,
                                   size_t *value_start, size_t *value_end){
     if (len < 7 || strncmp(line, "#define", 7) != 0) {
@@ -60,11 +77,7 @@ static int find_define_value_span(const char *line, size_t len, const char *name
         return 0;
     }
 
-    size_t end = len;
-    if (end > 0 && line[end - 1] == '\r') {
-        end--;
-    }
-    size_t content_end = end;
+    size_t content_end = strip_line_comment(line, len);
     while (content_end > i && isspace((unsigned char)line[content_end - 1])) {
         content_end--;
     }
@@ -290,10 +303,14 @@ int replace_define_line(const char *line, size_t len, void *vctx,
 int replace_build_comment_line(const char *line, size_t len, void *vctx,
                                       char **out, size_t *out_len){
     struct comment_edit *ctx = vctx;
-    if (len < 2 || line[0] != '/' || line[1] != '/') {
+    size_t i = 0;
+    while (i < len && (line[i] == ' ' || line[i] == '\t')) {
+        i++;
+    }
+    if (i + 2 > len || line[i] != '/' || line[i + 1] != '/') {
         return 0;
     }
-    size_t i = 2;
+    i += 2;
     while (i < len && (line[i] == ' ' || line[i] == '\t')) {
         i++;
     }

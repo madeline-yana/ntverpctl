@@ -131,7 +131,7 @@ static int edit_header(struct config_app *cfg, const char *path){
     char new_qfe[32] = "";
     parse_define_value(comment_data, comment_size, "VER_PRODUCTBUILD", new_build, sizeof(new_build));
     parse_define_value(comment_data, comment_size, "VER_PRODUCTBUILD_QFE", new_qfe, sizeof(new_qfe));
-    if (new_qfe[0] != '\0') {
+    if (new_build[0] != '\0' && new_qfe[0] != '\0') {
         struct comment_edit comment_ctx = {new_build, new_qfe};
         size_t updated_size = 0;
         char *updated = transform_lines(comment_data, comment_size, replace_build_comment_line,
